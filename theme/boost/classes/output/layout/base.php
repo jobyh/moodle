@@ -15,16 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A secure layout for the boost theme.
- *
  * @package   theme_boost
  * @copyright 2016 Damyon Wiese
+ * @copyright 2018 Joby Harding
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace theme_boost\output\layout;
+
 defined('MOODLE_INTERNAL') || die();
 
-$templatecontext = (new theme_boost\output\layout\secure())->export_for_template($OUTPUT);
+use renderer_base;
 
-echo $OUTPUT->render_from_template('theme_boost/secure', $templatecontext);
+class base implements \templatable {
 
+    /**
+     * Generate template context.
+     *
+     * @param renderer_base $output
+     * @return array
+     */
+    public function export_for_template(renderer_base $output) {
+        global $SITE;
+
+        $templatecontext = [
+            'sitename' => format_string($SITE->shortname, true, ['context' => \context_course::instance(SITEID), "escape" => false]),
+            'output' => $output
+        ];
+
+
+        return $templatecontext;
+    }
+
+}

@@ -24,9 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$templatecontext = [
-    'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
-    'output' => $OUTPUT
-];
+$templatecontext = (new theme_boost\output\layout\base())->export_for_template($OUTPUT);
 
 echo $OUTPUT->render_from_template('theme_boost/embedded', $templatecontext);
